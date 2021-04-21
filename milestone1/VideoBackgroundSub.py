@@ -22,4 +22,4 @@ while(1):
 cap.release()
 cv.destroyAllWindows()
 
-# com a amostra de video testada mog1, mesmo num comptador de grande capacidade de processamento, parece apresentar melhores resultados ao contrario do que seriam as expetativas!
+# com a amostra de video testada, mesmo num comptador de grande capacidade de processamento, mog1 parece apresentar melhores resultados ao contrario do que seriam as expetativas!
