@@ -1,6 +1,5 @@
 # Image resizing program
 import cv2 as cv
-import sys
 
 def imageResize(image):
 
@@ -20,14 +19,4 @@ def imageResize(image):
 
     # Returns the image resized
     return resizedImage
-
-
-img = cv.imread(cv.samples.findFile("groundtruth-rot0-2.png"))
-if img is None:
-    sys.exit("Could not read the image.")
-
-img = imageResize(img)
-
-cv.imshow('image',img)
-k = cv.waitKey(0) & 0xFF
 
