@@ -23,22 +23,21 @@ upper_red = np.array([10, 255, 255])
 mask1 = cv.inRange(hsv, lower_blue, upper_blue)
 mask2 = cv.inRange(hsv, lower_green, upper_green)
 mask3 = cv.inRange(hsv, lower_red, upper_red)
+mask = mask1+mask2+mask3;
 
 # Bitwise-AND mask and original image
-res1 = cv.bitwise_and(img, img, mask= mask1)
-res2 = cv.bitwise_and(img, img, mask= mask2)
-res3 = cv.bitwise_and(img, img, mask= mask3)
+res = cv.bitwise_and(img, img, mask= mask)
 
 img = image.imageResize(img)
-res1 = image.imageResize(res1)
-res2 = image.imageResize(res2)
-res3 = image.imageResize(res3)
+res = image.imageResize(res)
+mask = image.imageResize(mask)
 
 while(1):
-    cv.imshow("Range of Blue", res1)
-    cv.imshow("Range of Green", res2)
-    cv.imshow("Range of Red", res3)
+
+    cv.imshow("Mask", mask)
+    cv.imshow("Range of Blue, Green and RED", res)
     cv.imshow("Original Image", img)
+
     if cv.waitKey(20) & 0xFF == 27:
         break
 
