@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 
 # alterar codigo para suportar video input!!
-img = cv.imread('TestCaptureVideo.avi')
+img = cv.imread('NewPicture.jpg')
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)# img to gray
 cv.imshow('image1',gray)
