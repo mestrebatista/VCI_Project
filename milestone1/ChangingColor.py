@@ -44,4 +44,4 @@ while(1):
         cv.destroyAllWindows()
         break
 
-histogram.hist("img_new.jpg")
+histogram.hist_hsv("img_new.jpg")

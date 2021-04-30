@@ -1,6 +1,4 @@
-import numpy as np
 import cv2 as cv
-#import matplotlib.image as mpimg
 from matplotlib import pyplot as plt
 
 def hist(picture):
@@ -31,4 +29,20 @@ def hist(picture):
     plt.plot(hsv_hist)
     plt.show()
 
-hist("groundtruth-rot0-2.png")
+
+def hist_hsv(image):
+
+    img = cv.imread(image)
+
+    hsv_hist = cv.calcHist([img.ravel()], [0], None, [256], [0, 256])
+
+    plt.plot(hsv_hist)
+    plt.title('HSV Image Histogram')
+    plt.show()
+
+    cv.imshow('Original Image', img)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
+
