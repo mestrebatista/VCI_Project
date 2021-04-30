@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 import image
+import histogram
 
 img = cv.imread("groundtruth-rot0-2.png")
 
@@ -39,6 +40,8 @@ while(1):
     cv.imshow("Original Image", img)
 
     if cv.waitKey(20) & 0xFF == 27:
+        cv.imwrite("img_new.jpg", res);
+        cv.destroyAllWindows()
         break
 
-cv.destroyAllWindows()
+histogram.hist("img_new.jpg")

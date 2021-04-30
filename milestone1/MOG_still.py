@@ -23,7 +23,9 @@ k = cv.waitKey(30) & 0xff
 
 fgmask = fgbg.apply(image2)
 
+edges = cv.Canny(fgmask,100,200)
 cv.imshow('frame',fgmask)
+cv.imshow('edges',edges)
 k = cv.waitKey(0) & 0xff
 
 
