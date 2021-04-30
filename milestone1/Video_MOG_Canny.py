@@ -14,7 +14,10 @@ while(1):
 
     fgmask = fgbg.apply(frame)
 
+    edges = cv.Canny(fgmask,100,200)
+    #edges = cv.Canny(frame,100,200)
     cv.imshow('frame',fgmask)
+    cv.imshow('edges',edges)
     k = cv.waitKey(30) & 0xff
     if k == 27:
         break
