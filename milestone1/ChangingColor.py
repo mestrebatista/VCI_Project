@@ -40,7 +40,7 @@ while(1):
     cv.imshow("Original Image", img)
 
     if cv.waitKey(20) & 0xFF == 27:
-        cv.imwrite("img_new.jpg", res);
+        cv.imwrite("img_new.jpg", res)
         cv.destroyAllWindows()
         break
 
