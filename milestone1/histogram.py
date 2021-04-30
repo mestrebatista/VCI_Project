@@ -14,7 +14,7 @@ def hist(picture):
 
     plt.subplot(222)
     plt.title('Original Image Histogram')
-    origin_hist = cv.calcHist([img], [0], None, [256], [0, 256])
+    origin_hist = cv.calcHist([img], [0], None, [256], [1, 255])
     plt.plot(origin_hist)
 
     # tratamento da imagem para escala HSV
@@ -25,7 +25,7 @@ def hist(picture):
 
     plt.subplot(224)
     plt.title('HSV Image Histogram')
-    hsv_hist = cv.calcHist([hsv.ravel()], [0], None, [256], [0, 256])
+    hsv_hist = cv.calcHist([hsv.ravel()], [0], None, [256], [1, 255])
     plt.plot(hsv_hist)
     plt.show()
 
@@ -34,7 +34,7 @@ def hist_hsv(image):
 
     img = cv.imread(image)
 
-    hsv_hist = cv.calcHist([img.ravel()], [0], None, [256], [0, 256])
+    hsv_hist = cv.calcHist([img.ravel()], [0], None, [256], [2, 254])
 
     plt.plot(hsv_hist)
     plt.title('HSV Image Histogram')
