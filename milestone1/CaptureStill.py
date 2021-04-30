@@ -5,7 +5,9 @@ videoCaptureObject = cv.VideoCapture(0)
 result = True
 while(result):
     ret,frame = videoCaptureObject.read()
-    cv.imwrite("NewPicture.jpg",frame)
+    picture = cv.imwrite("NewPicture.jpg",frame)
     result = False
+
+histogram.hist(picture)
 videoCaptureObject.release()
 cv.destroyAllWindows()
