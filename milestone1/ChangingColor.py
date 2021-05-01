@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+from matplotlib import pyplot as plt
 import image
 import histogram
 
@@ -29,19 +30,17 @@ mask = mask1+mask2+mask3;
 # Bitwise-AND mask and original image
 res = cv.bitwise_and(img, img, mask= mask)
 
-img = image.imageResize(img)
 res = image.imageResize(res)
-mask = image.imageResize(mask)
+cv.imwrite("img_new.jpg", res)
 
-while(1):
+# Changing Colors to RGB in  order to do the plot
+img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+res = cv.cvtColor(res, cv.COLOR_BGR2RGB)
+mask = cv.cvtColor(mask, cv.COLOR_BGR2RGB)
 
-    cv.imshow("Mask", mask)
-    cv.imshow("Range of Blue, Green and RED", res)
-    cv.imshow("Original Image", img)
+plt.subplot(1,3,1), plt.imshow(img), plt.title('Original Image')
+plt.subplot(1,3,2), plt.imshow(res), plt.title('Range of Blue, Green and RED')
+plt.subplot(1,3,3), plt.imshow(mask), plt.title('Mask')
+plt.show()
 
-    if cv.waitKey(20) & 0xFF == 27:
-        cv.imwrite("img_new.jpg", res)
-        cv.destroyAllWindows()
-        break
-
-histogram.hist_hsv("img_new.jpg")
+histogram.hist("img_new.jpg")

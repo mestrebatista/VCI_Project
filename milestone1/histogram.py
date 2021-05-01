@@ -8,12 +8,12 @@ def hist(picture):
     # juntar tudo na mesma imagem
     plt.figure(1)
     plt.subplot(221)
-    plt.title('Original Image')
+    plt.title('New Image')
     # tratamento da imagem original
     plt.imshow(img)
 
     plt.subplot(222)
-    plt.title('Original Image Histogram')
+    plt.title('New Image Histogram')
     origin_hist = cv.calcHist([img], [0], None, [256], [1, 255])
     plt.plot(origin_hist)
 
@@ -30,19 +30,6 @@ def hist(picture):
     plt.show()
 
 
-def hist_hsv(image):
-
-    img = cv.imread(image)
-
-    hsv_hist = cv.calcHist([img.ravel()], [0], None, [256], [2, 254])
-
-    plt.plot(hsv_hist)
-    plt.title('HSV Image Histogram')
-    plt.show()
-
-    cv.imshow('Original Image', img)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
 
 
 
