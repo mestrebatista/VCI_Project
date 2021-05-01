@@ -30,13 +30,13 @@ mask = mask1+mask2+mask3;
 # Bitwise-AND mask and original image
 res = cv.bitwise_and(img, img, mask= mask)
 
-res = image.imageResize(res)
-cv.imwrite("img_new.jpg", res)
-
 # Changing Colors to RGB in  order to do the plot
 img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 res = cv.cvtColor(res, cv.COLOR_BGR2RGB)
 mask = cv.cvtColor(mask, cv.COLOR_BGR2RGB)
+
+res = image.imageResize(res)
+cv.imwrite("img_new.jpg", res)
 
 plt.subplot(1,3,1), plt.imshow(img), plt.title('Original Image')
 plt.subplot(1,3,2), plt.imshow(res), plt.title('Range of Blue, Green and RED')
