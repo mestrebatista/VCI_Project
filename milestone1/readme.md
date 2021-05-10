@@ -1,4 +1,4 @@
------Guide to run the correct files-----
+-----*Guide to run the correct files*-----
 
 ChangingColor.py file:
   - it's a main file 
