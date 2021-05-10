@@ -11,7 +11,7 @@ def hist_eq(picture):
     img_yuv[:, :, 0] = clahe.apply(img_yuv[:, :, 0])
     img = cv.cvtColor(img_yuv, cv.COLOR_YUV2BGR)
     #creat new corrected image
-    cv.imwrite('Better_Image.png',img)
+    cv.imwrite('Better_Image1.png',img)
 
 
 
