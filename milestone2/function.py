@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+import Mesure
 
 def contour(image):
     #img = cv.imread(image)
@@ -15,6 +16,7 @@ def contour(image):
     cv.imshow('Display', image)
     cv.waitKey(0)
     cv.destroyAllWindows()
+    return image,contours
 
 
 def colorDetection(img):
@@ -78,6 +80,9 @@ def imageResize(image):
 
 img = cv.imread("groundtruth-rot0-2.png")
 img = colorDetection(img)
-contour(img)
+img,contours=contour(img)
+img=Mesure.getMesure(img,contours)
+cv.imshow("Contours",img)
+cv.waitKey(0)
 
 

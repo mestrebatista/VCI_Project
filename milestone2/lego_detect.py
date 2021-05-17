@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import function
-import Contours
+import Mesure
 
 img=cv.imread("groundtruth-rot0-2.png")
 img = function.imageResize(img) #resize the original image
@@ -13,7 +13,7 @@ imgBlur=cv.GaussianBlur(img,(7,7),0)
 #find edges in the images using Canny
 imgCanny=cv.Canny(imgBlur,50,50)
 #get contours of the edges in the image
-imgContour=Contours.getContours(img,imgCanny)
+imgContour=Mesure.getContours(img, imgCanny)
 
 
 #show results

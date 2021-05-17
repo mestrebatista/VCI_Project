@@ -2,8 +2,9 @@ import cv2 as cv
 import numpy as np
 
 
-def getContours(img, imgCanny):
-    contours, hierarchy = cv.findContours(imgCanny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+#def getContours(img, imgCanny):
+def getMesure(img,contours):
+    #contours, hierarchy = cv.findContours(imgCanny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     imgCopy = img.copy()
     for cnt in contours:
         area = cv.contourArea(cnt + 1)
