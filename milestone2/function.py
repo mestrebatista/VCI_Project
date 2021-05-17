@@ -2,6 +2,21 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 
+def contour(image):
+    #img = cv.imread(image)
+    imgray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    ret, thresh = cv.threshold(imgray, 0, 255, 0)
+    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    cv.drawContours(image, contours, -1, (0,255,0), 6)
+
+
+    #img = image.imageResize(image)
+    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+    cv.imshow('Display', image)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
 def colorDetection(img):
 
     # Convert BGR to HSV
@@ -40,6 +55,8 @@ def colorDetection(img):
     plt.subplot(1,3,3), plt.imshow(mask), plt.title('Mask')
     plt.show()
 
+    return res
+
 def imageResize(image):
 
     # Percent of original size
@@ -60,4 +77,7 @@ def imageResize(image):
     return resizedImage
 
 img = cv.imread("groundtruth-rot0-2.png")
-colorDetection(img)
+img = colorDetection(img)
+contour(img)
+
+
