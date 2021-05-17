@@ -82,7 +82,5 @@ img = cv.imread("groundtruth-rot0-2.png")
 img = colorDetection(img)
 img,contours=contour(img)
 img=Mesure.getMesure(img,contours)
-cv.imshow("Contours",img)
-cv.waitKey(0)
 
 

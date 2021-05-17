@@ -31,4 +31,9 @@ def getMesure(img,contours):
             cv.rectangle(imgCopy,(x,y),(x+w,y+h),(255,0,0),2)
             cv.putText(imgCopy,LegoType,(x+(w//4)-30,y+(h)+20),cv.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1)
 
+    cv.imshow("Contours", imgCopy)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+
     return imgContour
