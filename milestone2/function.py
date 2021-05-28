@@ -22,7 +22,7 @@ def contour1(image):
 def contour2(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
     contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(image, contours, -1, (0,255,0), 6)
+    cv.drawContours(image, contours, -1, (0,0,0), 6)
 
     cv.imshow('Display', image)
     cv.waitKey(0)
@@ -39,7 +39,7 @@ def colorDetection(img):
     upper_blue = np.array([120, 255, 255])
 
     # define range of green color in HSV
-    lower_green = np.array([50, 100, 100])
+    lower_green = np.array([50, 100, 10])
     upper_green = np.array([105, 255, 255])
 
     # define range of red color in HSV
@@ -50,7 +50,7 @@ def colorDetection(img):
     mask1 = cv.inRange(hsv, lower_blue, upper_blue)
     mask2 = cv.inRange(hsv, lower_green, upper_green)
     mask3 = cv.inRange(hsv, lower_red, upper_red)
-    mask = mask2     # + mask2 + mask3;
+    mask = mask1 + mask2 + mask3
 
     # Bitwise-AND mask and original image
     res = cv.bitwise_and(img, img, mask=mask)
@@ -107,7 +107,7 @@ def backroundSub(background, img):
     return edges
 
 
-img = cv.imread("legoPictures/Legos10.jpg")
+img = cv.imread("legoPictures/Legos7.jpg")
 background = cv.imread("legoPictures/Background.jpg")
 img = imageResize(img)
 edges = backroundSub(background, img)
