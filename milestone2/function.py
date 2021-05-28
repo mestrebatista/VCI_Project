@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
-import Mesure
+import Measure
 
 def contour(image):
     #img = cv.imread(image)
@@ -62,7 +62,7 @@ def colorDetection(img):
 def imageResize(image):
 
     # Percent of original size
-    scale_percent = 20
+    scale_percent = 100
 
     # Width
     width = int(image.shape[1] * scale_percent / 100)
@@ -78,9 +78,10 @@ def imageResize(image):
     # Returns the image resized
     return resizedImage
 
-img = cv.imread("groundtruth-rot0-2.png")
+img = cv.imread("legoPictures/Legos1.jpg")
+img = imageResize(img)
 img = colorDetection(img)
 img,contours=contour(img)
-img=Mesure.getMesure(img,contours)
+img=Measure.getMeasure(img, contours)
 
 

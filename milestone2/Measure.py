@@ -3,19 +3,19 @@ import numpy as np
 
 
 #def getContours(img, imgCanny):
-def getMesure(img,contours):
+def getMeasure(img,contours):
     #contours, hierarchy = cv.findContours(imgCanny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     imgCopy = img.copy()
     for cnt in contours:
         area = cv.contourArea(cnt + 1)
-        print(area)  # area
-        if area < 7900:
+        print("Area:", area)  # area
+        if area < 7900 and area>30:
             imgContour = cv.drawContours(imgCopy, cnt, -1, (0, 255, 0), 2)
             perimetro = cv.arcLength(cnt, True)
-            print(perimetro)  # perimetro
+            print("Per:",perimetro)  # perimetro
             cornerPoints = cv.approxPolyDP(cnt, 0.02 * perimetro, True)
             numCorners = len(cornerPoints)
-            print(numCorners)  # numero de vértices
+            print("Cantos:",numCorners)  # numero de vértices
             x, y, w, h = cv.boundingRect(cornerPoints)
 
             if numCorners == 4:
