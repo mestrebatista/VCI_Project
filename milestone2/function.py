@@ -18,7 +18,6 @@ def contour(image):
     cv.destroyAllWindows()
     return image,contours
 
-
 def colorDetection(img):
 
     # Convert BGR to HSV
@@ -78,8 +77,40 @@ def imageResize(image):
     # Returns the image resized
     return resizedImage
 
-img = cv.imread("legoPictures/Legos1.jpg")
-img = imageResize(img)
+
+def hist(picture):
+
+    #img = cv.imread(picture)  # adquire a imagem do vídeo
+
+    # juntar tudo na mesma imagem
+    plt.figure(1)
+    plt.subplot(221)
+    plt.title('New Image')
+    # tratamento da imagem original
+    plt.imshow(picture)
+
+    plt.subplot(222)
+    plt.title('New Image Histogram')
+    gray = cv.cvtColor(picture, cv.COLOR_BGR2GRAY)
+    origin_hist = cv.calcHist([gray.ravel()], [0], None, [256], [5, 251])
+    plt.plot(origin_hist)
+
+    # tratamento da imagem para escala HSV
+    plt.subplot(223)
+    plt.title('HSV Image')
+    hsv = cv.cvtColor(picture, cv.COLOR_BGR2HSV)  # img to HSV
+    plt.imshow(hsv)
+
+    plt.subplot(224)
+    plt.title('HSV Image Histogram')
+    hsv_hist = cv.calcHist([hsv.ravel()], [0], None, [256], [5, 251])
+    plt.plot(hsv_hist)
+    plt.show()
+
+
+
+img = cv.imread("legoPictures/Legos9.jpg")
+hist(img)
 img = colorDetection(img)
 img,contours=contour(img)
 img=Measure.getMeasure(img, contours)
