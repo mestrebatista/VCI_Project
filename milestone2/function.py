@@ -21,10 +21,10 @@ def contour1(image):
 
 def contour2(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(image, contours, -1, (0,0,0), 6)
+    contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+    cv.drawContours(image, contours, -1, (0,0,0),2)
 
-    cv.imshow('Display', image)
+    cv.imshow('Contourns', image)
     cv.waitKey(0)
     cv.destroyAllWindows()
     return image,contours
@@ -95,8 +95,7 @@ def backroundSub(background, img):
     fgbg = cv.bgsegm.createBackgroundSubtractorMOG()
 
     fgmask = fgbg.apply(background)
-
-
+    
     fgmask = fgbg.apply(img)
 
     edges = cv.Canny(fgmask, 100, 200)
@@ -107,10 +106,16 @@ def backroundSub(background, img):
     return edges
 
 
-img = cv.imread("legoPictures/Legos7.jpg")
+img = cv.imread("legoPictures/Legos2.jpg")
 background = cv.imread("legoPictures/Background.jpg")
+#resise images and background
 img = imageResize(img)
-edges = backroundSub(background, img)
-img, contours = contour2(img, edges)
-
+background=imageResize(background)
+#color(função usada mas nao aplicada posteriormente)
 color = colorDetection(img)
+#edges
+edges = backroundSub(background, img)
+#contourns
+img, contours = contour2(img, edges)
+#measure
+img=Measure.getMeasure(img,contours)

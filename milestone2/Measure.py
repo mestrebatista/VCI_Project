@@ -1,32 +1,31 @@
 import cv2 as cv
 import numpy as np
+import math
 
 
-#def getContours(img, imgCanny):
 def getMeasure(img,contours):
     #contours, hierarchy = cv.findContours(imgCanny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     imgCopy = img.copy()
     for cnt in contours:
-        area = cv.contourArea(cnt + 1)
-        #print("Area:", area)  # area
-        if area < 7900 and area>1000:
+        area = cv.contourArea(cnt+1)
+        print("Area:", area)  # area
+        if area>1000:
             imgContour = cv.drawContours(imgCopy, cnt, -1, (0, 255, 0), 2)
             perimetro = cv.arcLength(cnt, True)
             #print("Per:",perimetro)  # perimetro
             cornerPoints = cv.approxPolyDP(cnt, 0.02 * perimetro, True)
             numCorners = len(cornerPoints)
-            #print("Cantos:",numCorners)  # numero de vértices
+            print("Cantos:",numCorners)  # numero de vértices
             x, y, w, h = cv.boundingRect(cornerPoints)
 
-            unit_ref = 35
+            unit_ref = 30
             ratio =[0,0]
-            ratio[0] = int(round(w / (unit_ref-1)))          # width
-            ratio[1] = int(round(h / (unit_ref-1)))           #height
+            ratio[0] = int(round(w / (unit_ref)))          # width
+            ratio[1] = int(round(h / (unit_ref)))           #height
 
 
     # Write the ratio on image
-            cv.putText(imgCopy, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
-               cv.LINE_AA)
+        cv.putText(imgCopy, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv.LINE_AA)
 
             # if numCorners == 4:
             #     aspRatio=w/float(h)
@@ -41,7 +40,7 @@ def getMeasure(img,contours):
             # cv.rectangle(imgCopy,(x,y),(x+w,y+h),(255,0,0),2)
             # cv.putText(imgCopy,LegoType,(x+(w//4)-30,y+(h)+20),cv.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1)
 
-    cv.imshow("Contours", imgCopy)
+    cv.imshow("Measures", imgCopy)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
