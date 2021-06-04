@@ -43,7 +43,7 @@ def colorDetection(img):
     upper_green = np.array([105, 255, 255])
 
     # define range of red color in HSV
-    lower_red = np.array([150, 155, 0])
+    lower_red = np.array([135, 155, 0])
     upper_red = np.array([179, 255, 255])
 
     # Threshold the HSV image to get only blue colors
@@ -106,4 +106,47 @@ def backroundSub(background, img):
 
     return edges
 
+def objectTracking(img):
 
+    # Convert BGR to HSV
+    hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+
+    # define range of blue color in HSV
+    lower_blue = np.array([112, 220, 50])
+    upper_blue = np.array([120, 255, 255])
+
+    # define range of green color in HSV
+    lower_green = np.array([50, 100, 10])
+    upper_green = np.array([105, 255, 255])
+
+    # define range of red color in HSV
+    lower_red = np.array([135, 155, 0])
+    upper_red = np.array([179, 255, 255])
+
+    # Threshold the HSV image to get only blue colors
+    mask1 = cv.inRange(hsv, lower_blue, upper_blue)
+    mask2 = cv.inRange(hsv, lower_green, upper_green)
+    mask3 = cv.inRange(hsv, lower_red, upper_red)
+    mask = mask1 + mask2 + mask3
+
+    kernel = np.ones((2, 2), np.uint8)
+    mask = cv.dilate(mask, kernel, iterations=1)
+    mask = cv.erode(mask, kernel, iterations=1)
+
+    res = cv.bitwise_and(img, img, mask=mask)
+    framegray = cv.cvtColor(res, cv.COLOR_BGR2GRAY)
+    framegray_b = cv.GaussianBlur(framegray, (3, 5), 0)
+    edges = cv.Canny(framegray_b, 50, 150, apertureSize=3)
+
+    contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    for i in range(len(contours)):
+        cnt = contours[i];
+
+        if cv.contourArea(cnt) > 150 and hierarchy[0][i][3] == -1:
+            x, y, w, h = cv.boundingRect(cnt)
+            cv.rectangle(img, (x, y), (x + w, y + h), (255, 0, 155), 2)
+
+    cv.imshow('contours', img)
+    cv.waitKey(0) & 0xFF
+
+    cv.destroyAllWindows()
