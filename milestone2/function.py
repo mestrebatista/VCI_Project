@@ -22,12 +22,12 @@ def contour1(image):
 def contour2(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
     contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
-    cv.drawContours(image, contours, -1, (0,0,0),2)
+    cv.drawContours(image, contours, -1, (0, 0, 0), 3)
 
     cv.imshow('Contourns', image)
     cv.waitKey(0)
     cv.destroyAllWindows()
-    return image,contours
+    return image, contours
 
 def colorDetection(img):
 
@@ -95,7 +95,7 @@ def backroundSub(background, img):
     fgbg = cv.bgsegm.createBackgroundSubtractorMOG()
 
     fgmask = fgbg.apply(background)
-    
+
     fgmask = fgbg.apply(img)
 
     edges = cv.Canny(fgmask, 100, 200)
@@ -106,8 +106,8 @@ def backroundSub(background, img):
     return edges
 
 
-img = cv.imread("legoPictures/Legos2.jpg")
-background = cv.imread("legoPictures/Background.jpg")
+img = cv.imread("legoPictures1/Legos1.jpg")
+background = cv.imread("legoPictures1/Background.jpg")
 #resise images and background
 img = imageResize(img)
 background=imageResize(background)
