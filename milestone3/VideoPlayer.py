@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-import function
+import functionVideo as function
 import time
 from pyimagesearch.centroidtracker import CentroidTracker
 import Measure
@@ -14,13 +14,15 @@ cap = cv.VideoCapture("legos.mov")
 frame = cap.read()
 frame = frame[1]
 
-cv.imwrite("background.jpg", frame)
-background=cv.imread("background.jpg")
-#background = cv.GaussianBlur(background, (5, 5), 0)
-background=function.imageResize(background)
+# cv.imwrite("background.jpg", frame)
+# background=cv.imread("background.jpg")
+# #background = cv.GaussianBlur(background, (5, 5), 0)
+# background=function.imageResize(background)
 
 if W is None or H is None:
 	(H, W) = frame.shape[:2]
+
+
 
 
 while True:
@@ -32,7 +34,7 @@ while True:
 
     frame=function.imageResize(frame)
     #frame = cv.GaussianBlur(frame, (5, 5), 0)
-    edges = function.backroundSub(background, frame)
+    edges = function.backroundSub(cap)
     frame, contours = function.contour(frame, edges)
     frame = Measure.getMeasure(frame, contours)
 
