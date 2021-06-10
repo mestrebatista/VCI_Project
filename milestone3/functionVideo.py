@@ -1,33 +1,35 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+from pyimagesearch.centroidtracker import CentroidTracker
 import Measure
 
-def contour1(image):
-    #image = cv.imread(img)
-    imgray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+
+#def contour1(image):
+#    #image = cv.imread(img)
+#    imgray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+#    ret, thresh = cv.threshold(imgray, 0, 255, 0)
+#    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+#    cv.drawContours(image, contours, -1, (0,255,0), 6)
+#
+#
+#    #img = image.imageResize(image)
+#    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+#    cv.imshow('Display', image)
+#    cv.waitKey(0)
+#    cv.destroyAllWindows()
+#    return image,contours
+
+
+def contour(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(image, contours, -1, (0,255,0), 6)
+    contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    #cv.drawContours(image, contours, -1, (0, 0, 0), 3)
 
-
-    #img = image.imageResize(image)
-    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-    cv.imshow('Display', image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
-    return image,contours
-
-
-def contour2(image, imgray):
-    ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-    cv.drawContours(image, contours, -1, (0,0,0), 6)
-
-    cv.imshow('Display', image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
-    return image,contours
+    #cv.imshow('Contourns', image)
+    #cv.waitKey(0)
+    #cv.destroyAllWindows()
+    return image, contours
 
 def colorDetection(img):
 
@@ -37,12 +39,18 @@ def colorDetection(img):
     # define range of blue color in HSV
     lower_blue = np.array([112, 220, 50])
     upper_blue = np.array([120, 255, 255])
+    lower_blue = np.array([112, 220, 50])
+    upper_blue = np.array([120, 255, 255])
 
     # define range of green color in HSV
     lower_green = np.array([50, 100, 10])
     upper_green = np.array([105, 255, 255])
+    lower_green = np.array([50, 100, 10])
+    upper_green = np.array([105, 255, 255])
 
     # define range of red color in HSV
+    lower_red = np.array([135, 155, 0])
+    upper_red = np.array([179, 255, 255])
     lower_red = np.array([135, 155, 0])
     upper_red = np.array([179, 255, 255])
 
@@ -73,7 +81,7 @@ def colorDetection(img):
 def imageResize(image):
 
     # Percent of original size
-    scale_percent = 100
+    scale_percent = 40
 
     # Width
     width = int(image.shape[1] * scale_percent / 100)
@@ -90,23 +98,26 @@ def imageResize(image):
     return resizedImage
 
 
-def backroundSub(background, img):
+def backroundSub(cap):
 
-    fgbg = cv.bgsegm.createBackgroundSubtractorMOG()
+    fgbg = cv.createBackgroundSubtractorMOG2()
 
-    fgmask = fgbg.apply(background)
+    ret, frame = cap.read()
 
-
-    fgmask = fgbg.apply(img)
+    fgmask = fgbg.apply(frame)
 
     edges = cv.Canny(fgmask, 100, 200)
 
-    cv.imshow('edges',edges)
-    k = cv.waitKey(0) & 0xff
+    #cv.imshow('edges',edges)
+    #k = cv.waitKey(0) & 0xff
 
     return edges
 
 def objectTracking(img):
+    #creat rects array
+    rects=[]
+    #set a centroid tracker
+    ct = CentroidTracker()
 
     # Convert BGR to HSV
     hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
@@ -145,8 +156,26 @@ def objectTracking(img):
         if cv.contourArea(cnt) > 150 and hierarchy[0][i][3] == -1:
             x, y, w, h = cv.boundingRect(cnt)
             cv.rectangle(img, (x, y), (x + w, y + h), (255, 0, 155), 2)
+            rects.append([x, y, x + w, y + h])
+            unit_ref = 30
+            ratio = [0, 0]
+            ratio[0] = int(round(w / (unit_ref)))  # width
+            ratio[1] = int(round(h / (unit_ref)))  # height
 
-    cv.imshow('contours', img)
-    cv.waitKey(0) & 0xFF
+            objects = ct.update(rects)
 
-    cv.destroyAllWindows()
+            for (objectID, centroid) in objects.items():
+                # draw both the ID of the object and the centroid of the
+                # object on the output frame
+                text = "ID:{}".format(objectID)
+
+            # Write the ratio on image
+            cv.putText(img, text, (x + w, y + h +13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+            cv.putText(img, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv.LINE_AA)
+
+    #cv.imshow('contours', img)
+    #cv.waitKey(0) & 0xFF
+
+    #cv.destroyAllWindows()
+    return img
