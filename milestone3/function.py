@@ -101,7 +101,7 @@ def imageResize(image):
 def backroundSub(background, img):
 
 
-    fgbg = cv.bgsegm.createBackgroundSubtractorMOG()
+    fgbg = cv.createBackgroundSubtractorMOG2()
 
     fgmask = fgbg.apply(background)
 

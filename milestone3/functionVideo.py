@@ -4,23 +4,6 @@ from matplotlib import pyplot as plt
 from pyimagesearch.centroidtracker import CentroidTracker
 import Measure
 
-
-#def contour1(image):
-#    #image = cv.imread(img)
-#    imgray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-#    ret, thresh = cv.threshold(imgray, 0, 255, 0)
-#    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-#    cv.drawContours(image, contours, -1, (0,255,0), 6)
-#
-#
-#    #img = image.imageResize(image)
-#    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-#    cv.imshow('Display', image)
-#    cv.waitKey(0)
-#    cv.destroyAllWindows()
-#    return image,contours
-
-
 def contour(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
     contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -161,21 +144,17 @@ def objectTracking(img):
             ratio = [0, 0]
             ratio[0] = int(round(w / (unit_ref)))  # width
             ratio[1] = int(round(h / (unit_ref)))  # height
+            cv.putText(img, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5,
+                       (0, 0, 0), 1, cv.LINE_AA)
 
             objects = ct.update(rects)
 
-            for (objectID, centroid) in objects.items():
-                # draw both the ID of the object and the centroid of the
-                # object on the output frame
-                text = "ID:{}".format(objectID)
+            for box_id in objects:
+                xi, yi, wi, hi, id = box_id
 
-            # Write the ratio on image
-            cv.putText(img, text, (x + w, y + h +13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
-                       cv.LINE_AA)
-            cv.putText(img, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv.LINE_AA)
+            cv.putText(img, "ID:"+str(id), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                           cv.LINE_AA)
 
-    #cv.imshow('contours', img)
-    #cv.waitKey(0) & 0xFF
 
     #cv.destroyAllWindows()
     return img
