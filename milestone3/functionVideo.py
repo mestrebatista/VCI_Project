@@ -123,7 +123,7 @@ def objectTracking(img):
     hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
     # define range of blue color in HSV
-    lower_blue = np.array([112, 220, 50])
+    lower_blue = np.array([0, 150, 20])
     upper_blue = np.array([120, 255, 255])
 
     # define range of green color in HSV
@@ -157,7 +157,7 @@ def objectTracking(img):
             x, y, w, h = cv.boundingRect(cnt)
             cv.rectangle(img, (x, y), (x + w, y + h), (255, 0, 155), 2)
             rects.append([x, y, x + w, y + h])
-            unit_ref = 30
+            unit_ref = 60
             ratio = [0, 0]
             ratio[0] = int(round(w / (unit_ref)))  # width
             ratio[1] = int(round(h / (unit_ref)))  # height
