@@ -164,17 +164,16 @@ def objectTracking(img):
             ratio[0] = int(round(w / (unit_ref)))  # width
             ratio[1] = int(round(h / (unit_ref)))  # height
 
+            cv.putText(img, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5,
+                       (0, 0, 0), 1, cv.LINE_AA)
+
             objects = ct.update(rects)
 
-            for (objectID, centroid) in objects.items():
-                # draw both the ID of the object and the centroid of the
-                # object on the output frame
-                text = "ID:{}".format(objectID)
+            for box_id in objects:
+                xi, yi, wi, hi, id = box_id
 
-            # Write the ratio on image
-            cv.putText(img, text, (x + w, y + h +13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+            cv.putText(img, "ID:" + str(id), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
                        cv.LINE_AA)
-            cv.putText(img, str(ratio[0]) + "x" + str(ratio[1]), (x + w, y + h), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv.LINE_AA)
 
     #cv.imshow('contours', img)
     #cv.waitKey(0) & 0xFF
