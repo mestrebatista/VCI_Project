@@ -1,7 +1,5 @@
-import numpy as np
 import cv2 as cv
 import functionVideo as function
-import time
 from pyimagesearch.centroidtracker import CentroidTracker
 import Measure
 
@@ -15,17 +13,10 @@ cap = cv.VideoCapture("video4.h264")
 frame = cap.read()
 frame = frame[1]
 
-
-# cv.imwrite("background.jpg", frame)
-# background=cv.imread("background.jpg")
-# #background = cv.GaussianBlur(background, (5, 5), 0)
-# background=function.imageResize(background)
-
 if W is None or H is None:
 	(H, W) = frame.shape[:2]
 
-
-
+x = 1
 
 while True:
     frame = cap.read()
@@ -35,16 +26,19 @@ while True:
         (H, W) = frame.shape[:2]
 
     frame=function.imageResize(frame)
-    #frame = cv.GaussianBlur(frame, (5, 5), 0)
     edges = function.backroundSub(cap)
     frame, contours = function.contour(frame, edges)
     frame = Measure.getMeasure(frame, contours)
 
-    frame=function.objectTracking(frame)
+    if x == 1:
+        # set a centroid tracker
+        ct = CentroidTracker()
+        x = 0
+
+    frame=function.objectTracking(frame, ct)
     cv.imshow("frame", frame)
 
     if cv.waitKey(1) == ord('q'):
         break
 
 cv.destroyAllWindows()
-#cap.stop()

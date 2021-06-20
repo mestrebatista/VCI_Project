@@ -1,35 +1,13 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
 from pyimagesearch.centroidtracker import CentroidTracker
-import Measure
-
-
-#def contour1(image):
-#    #image = cv.imread(img)
-#    imgray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-#    ret, thresh = cv.threshold(imgray, 0, 255, 0)
-#    contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-#    cv.drawContours(image, contours, -1, (0,255,0), 6)
-#
-#
-#    #img = image.imageResize(image)
-#    image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-#    cv.imshow('Display', image)
-#    cv.waitKey(0)
-#    cv.destroyAllWindows()
-#    return image,contours
-
 
 def contour(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
     contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    #cv.drawContours(image, contours, -1, (0, 0, 0), 3)
 
-    #cv.imshow('Contourns', image)
-    #cv.waitKey(0)
-    #cv.destroyAllWindows()
     return image, contours
+
 
 def colorDetection(img):
 
@@ -39,18 +17,12 @@ def colorDetection(img):
     # define range of blue color in HSV
     lower_blue = np.array([112, 220, 50])
     upper_blue = np.array([120, 255, 255])
-    lower_blue = np.array([112, 220, 50])
-    upper_blue = np.array([120, 255, 255])
 
     # define range of green color in HSV
     lower_green = np.array([50, 100, 10])
     upper_green = np.array([105, 255, 255])
-    lower_green = np.array([50, 100, 10])
-    upper_green = np.array([105, 255, 255])
 
     # define range of red color in HSV
-    lower_red = np.array([135, 155, 0])
-    upper_red = np.array([179, 255, 255])
     lower_red = np.array([135, 155, 0])
     upper_red = np.array([179, 255, 255])
 
@@ -69,14 +41,9 @@ def colorDetection(img):
     mask = cv.cvtColor(mask, cv.COLOR_BGR2RGB)
 
     res = imageResize(res)
-    #cv.imwrite("img_new.jpg", res)
-
-    plt.subplot(1, 3, 1), plt.imshow(img), plt.title('Original Image')
-    plt.subplot(1, 3, 2), plt.imshow(res), plt.title('Range of Blue, Green and RED')
-    plt.subplot(1, 3, 3), plt.imshow(mask), plt.title('Mask')
-    plt.show()
 
     return res
+
 
 def imageResize(image):
 
@@ -109,9 +76,6 @@ def backroundSub(background, img):
     fgmask = fgbg.apply(img)
 
     edges = cv.Canny(fgmask, 100, 200)
-
-    #cv.imshow('edges',edges)
-    #k = cv.waitKey(0) & 0xff
 
     return edges
 
@@ -224,8 +188,4 @@ def objectTracking(img):
             cv.putText(img, "ID:" + str(id), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
                        cv.LINE_AA)
 
-    #cv.imshow('contours', img)
-    #cv.waitKey(0) & 0xFF
-
-    #cv.destroyAllWindows()
     return img
