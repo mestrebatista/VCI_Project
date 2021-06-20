@@ -101,7 +101,7 @@ def imageResize(image):
 def backroundSub(background, img):
 
 
-    fgbg = cv.bgsegm.createBackgroundSubtractorMOG()
+    fgbg = cv.createBackgroundSubtractorMOG2()
 
     fgmask = fgbg.apply(background)
 
@@ -150,6 +150,55 @@ def objectTracking(img):
     framegray = cv.cvtColor(res, cv.COLOR_BGR2GRAY)
     framegray_b = cv.GaussianBlur(framegray, (3, 5), 0)
     edges = cv.Canny(framegray_b, 50, 150, apertureSize=3)
+
+    red_mask = cv.dilate(mask3, kernel)
+    res_red = cv.bitwise_and(img, img,
+                             mask=red_mask)
+
+    green_mask = cv.dilate(mask2, kernel)
+    res_green = cv.bitwise_and(img, img,
+                               mask=green_mask)
+
+    blue_mask = cv.dilate(mask1, kernel)
+    res_red = cv.bitwise_and(img, img,
+                             mask=blue_mask)
+
+
+    contours, hierarchy = cv.findContours(red_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 300):
+            x, y, w, h = cv.boundingRect(contour)
+            cv.putText(img, "Red", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+
+            # Creating contour to track green color
+    contours, hierarchy = cv.findContours(green_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 300):
+            x, y, w, h = cv.boundingRect(contour)
+            cv.putText(img, "Green", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+
+    # Creating contour to track blue color
+    contours, hierarchy = cv.findContours(blue_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 300):
+            x, y, w, h = cv.boundingRect(contour)
+
+            cv.putText(img, "Blue", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+
 
     contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
