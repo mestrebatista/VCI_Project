@@ -132,6 +132,8 @@ def objectTracking(img):
     framegray_b = cv.GaussianBlur(framegray, (3, 5), 0)
     edges = cv.Canny(framegray_b, 50, 150, apertureSize=3)
 
+    printColor(hsv, img)
+
     contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
         cnt = contours[i];
@@ -158,3 +160,75 @@ def objectTracking(img):
 
     #cv.destroyAllWindows()
     return img
+
+def printColor(hsv, img):
+    # define range of blue color in HSV
+    lower_blue = np.array([90, 150, 0])
+    upper_blue = np.array([150, 255, 255])
+
+    # define range of green color in HSV
+    lower_green = np.array([20, 100, 10])
+    upper_green = np.array([90, 255, 255])
+
+    # define range of red color in HSV
+    lower_red = np.array([135, 150, 0])
+    upper_red = np.array([179, 255, 255])
+
+    # Threshold the HSV image to get only blue colors
+    mask1 = cv.inRange(hsv, lower_blue, upper_blue)
+    mask2 = cv.inRange(hsv, lower_green, upper_green)
+    mask3 = cv.inRange(hsv, lower_red, upper_red)
+    mask = mask1 + mask2 + mask3
+
+    kernel = np.ones((2, 2), np.uint8)
+    mask = cv.dilate(mask, kernel, iterations=1)
+    mask = cv.erode(mask, kernel, iterations=1)
+
+    red_mask = cv.dilate(mask3, kernel)
+    res_red = cv.bitwise_and(img, img,
+                             mask=red_mask)
+
+    green_mask = cv.dilate(mask2, kernel)
+    res_green = cv.bitwise_and(img, img,
+                               mask=green_mask)
+
+    blue_mask = cv.dilate(mask1, kernel)
+    res_red = cv.bitwise_and(img, img,
+                             mask=blue_mask)
+
+
+    contours, hierarchy = cv.findContours(red_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 5000):
+            x, y, w, h = cv.boundingRect(contour)
+            cv.putText(img, "Red", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+
+            # Creating contour to track green color
+    contours, hierarchy = cv.findContours(green_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 300):
+            x, y, w, h = cv.boundingRect(contour)
+            cv.putText(img, "Green", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+
+    # Creating contour to track blue color
+    contours, hierarchy = cv.findContours(blue_mask,
+                                           cv.RETR_TREE,
+                                           cv.CHAIN_APPROX_SIMPLE)
+    for pic, contour in enumerate(contours):
+        area = cv.contourArea(contour)
+        if (area > 300):
+            x, y, w, h = cv.boundingRect(contour)
+
+            cv.putText(img, "Blue", (x + w, y + h + 30), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+                       cv.LINE_AA)
+

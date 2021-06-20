@@ -9,7 +9,7 @@ import Measure
 ct = CentroidTracker()
 (H, W) = (None, None)
 
-cap = cv.VideoCapture("video2.h264")
+cap = cv.VideoCapture("video4.h264")
 
 
 frame = cap.read()
