@@ -1,7 +1,7 @@
 import function
 import cv2 as cv
 
-img = cv.imread("legoPictures/Legos4.jpg")
+img = cv.imread("legoPictures/Legos1.jpg")
 background = cv.imread("legoPictures/Background.jpg")
 
 color = function.colorDetection(img)
