@@ -9,10 +9,12 @@ import Measure
 ct = CentroidTracker()
 (H, W) = (None, None)
 
-cap = cv.VideoCapture("video1.h264")
+cap = cv.VideoCapture("video2.h264")
+
 
 frame = cap.read()
 frame = frame[1]
+
 
 # cv.imwrite("background.jpg", frame)
 # background=cv.imread("background.jpg")
@@ -28,7 +30,7 @@ if W is None or H is None:
 while True:
     frame = cap.read()
     frame = frame[1]
-
+    frame = cv.flip(frame, -1) # inverter video
     if W is None or H is None:
         (H, W) = frame.shape[:2]
 
@@ -40,8 +42,9 @@ while True:
 
     frame=function.objectTracking(frame)
     cv.imshow("frame", frame)
+
     if cv.waitKey(1) == ord('q'):
         break
 
 cv.destroyAllWindows()
-cap.stop()
+#cap.stop()
