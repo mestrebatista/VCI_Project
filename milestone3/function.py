@@ -4,7 +4,7 @@ from pyimagesearch.centroidtracker import CentroidTracker
 
 def contour(image, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    img, contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     return image, contours
 
@@ -38,7 +38,7 @@ def colorDetection(img):
     # Changing Colors to RGB in  order to do the plot
     img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     res = cv.cvtColor(res, cv.COLOR_BGR2RGB)
-    mask = cv.cvtColor(mask, cv.COLOR_BGR2RGB)
+    #mask = cv.cvtColor(mask, cv.COLOR_BGR2RGB)
 
     res = imageResize(res)
 
@@ -128,7 +128,7 @@ def objectTracking(img):
                              mask=blue_mask)
 
 
-    contours, hierarchy = cv.findContours(red_mask,
+    image, contours, hierarchy = cv.findContours(red_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -140,7 +140,7 @@ def objectTracking(img):
                        cv.LINE_AA)
 
             # Creating contour to track green color
-    contours, hierarchy = cv.findContours(green_mask,
+    image, contours, hierarchy = cv.findContours(green_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -152,7 +152,7 @@ def objectTracking(img):
                        cv.LINE_AA)
 
     # Creating contour to track blue color
-    contours, hierarchy = cv.findContours(blue_mask,
+    image, contours, hierarchy = cv.findContours(blue_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
     for pic, contour in enumerate(contours):
@@ -164,7 +164,7 @@ def objectTracking(img):
                        cv.LINE_AA)
 
 
-    contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    image, contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     for i in range(len(contours)):
         cnt = contours[i];
 
@@ -185,7 +185,7 @@ def objectTracking(img):
             for box_id in objects:
                 xi, yi, wi, hi, id = box_id
 
-            cv.putText(img, "ID:" + str(id), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
+            cv.putText(img, "ID:" + str(id+2), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
                        cv.LINE_AA)
 
     return img

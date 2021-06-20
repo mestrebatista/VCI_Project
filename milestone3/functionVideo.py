@@ -5,7 +5,7 @@ from pyimagesearch.centroidtracker import CentroidTracker
 
 def contour(frame, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    image, contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     return frame, contours
 
@@ -119,7 +119,7 @@ def objectTracking(frame, ct):
 
     printColor(hsv, frame)
 
-    contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    image, contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
     for i in range(len(contours)):
         cnt = contours[i];
@@ -184,7 +184,7 @@ def printColor(hsv, frame):
                              mask=blue_mask)
 
 
-    contours, hierarchy = cv.findContours(red_mask,
+    image, contours, hierarchy = cv.findContours(red_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -196,7 +196,7 @@ def printColor(hsv, frame):
                        cv.LINE_AA)
 
             # Creating contour to track green color
-    contours, hierarchy = cv.findContours(green_mask,
+    image, contours, hierarchy = cv.findContours(green_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -208,7 +208,7 @@ def printColor(hsv, frame):
                        cv.LINE_AA)
 
     # Creating contour to track blue color
-    contours, hierarchy = cv.findContours(blue_mask,
+    image, contours, hierarchy = cv.findContours(blue_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
     for pic, contour in enumerate(contours):
