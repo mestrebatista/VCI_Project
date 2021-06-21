@@ -35,10 +35,11 @@ while True:
         ct = CentroidTracker()
         x = 0
 
-    frame=function.objectTracking(frame, ct)
+    frame, id=function.objectTracking(frame, ct)
     cv.imshow("frame", frame)
 
     if cv.waitKey(1) == ord('q'):
+        print("Numero de legos: "+ str(id))
         break
 
 cv.destroyAllWindows()

@@ -5,7 +5,7 @@ from pyimagesearch.centroidtracker import CentroidTracker
 
 def contour(frame, imgray):
     ret, thresh = cv.threshold(imgray, 0, 255, 0)
-    image, contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv.findContours(thresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     return frame, contours
 
@@ -119,8 +119,8 @@ def objectTracking(frame, ct):
 
     printColor(hsv, frame)
 
-    image, contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-
+    contours, hierarchy = cv.findContours(framegray_b, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+    idd = 0
     for i in range(len(contours)):
         cnt = contours[i];
 
@@ -142,10 +142,10 @@ def objectTracking(frame, ct):
 
             cv.putText(frame, "ID:"+str(id), (x + w, y + h + 13), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1,
                            cv.LINE_AA)
-
+            idd = id
 
     #cv.destroyAllWindows()
-    return frame
+    return frame, idd
 
 
 def printColor(hsv, frame):
@@ -184,7 +184,7 @@ def printColor(hsv, frame):
                              mask=blue_mask)
 
 
-    image, contours, hierarchy = cv.findContours(red_mask,
+    contours, hierarchy = cv.findContours(red_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -196,7 +196,7 @@ def printColor(hsv, frame):
                        cv.LINE_AA)
 
             # Creating contour to track green color
-    image, contours, hierarchy = cv.findContours(green_mask,
+    contours, hierarchy = cv.findContours(green_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
 
@@ -208,7 +208,7 @@ def printColor(hsv, frame):
                        cv.LINE_AA)
 
     # Creating contour to track blue color
-    image, contours, hierarchy = cv.findContours(blue_mask,
+    contours, hierarchy = cv.findContours(blue_mask,
                                            cv.RETR_TREE,
                                            cv.CHAIN_APPROX_SIMPLE)
     for pic, contour in enumerate(contours):
